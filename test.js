@@ -9,7 +9,7 @@ function handleLogin() {
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
-        if (!emailInput || !passwordInput || emailInput === null || passwordInput === null) {
+        if (!emailInput || !passwordInput) {
             throw new Error('Login fields not found in the DOM.');
         }
 
@@ -33,7 +33,7 @@ function handleLogin() {
  * @returns {boolean} True if the input is valid, false otherwise.
  */
 function validateInput(email, password) {
-    if (email === null || password === null || email === '' || password === '') {
+    if (!email || !password || email === '' || password === '') {
         alert('Please enter both email and password.');
         return false;
     }
@@ -98,13 +98,15 @@ function debugUser() {
 }
 
 // Example usage:
+const handleFormSubmission = function(event) {
+    event.preventDefault();
+    handleLogin();
+};
+
 window.onload = function () {
     const form = document.getElementById('login-form');
     if (form) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            handleLogin();
-        });
+        form.addEventListener('submit', handleFormSubmission);
     }
 };
 
@@ -112,9 +114,6 @@ window.onload = function () {
 window.onunload = function () {
     const form = document.getElementById('login-form');
     if (form) {
-        form.removeEventListener('submit', function (event) {
-            event.preventDefault();
-            handleLogin();
-        });
+        form.removeEventListener('submit', handleFormSubmission);
     }
 };
