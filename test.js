@@ -6,6 +6,7 @@
  */
 function handleLogin(event) {
     try {
+        event.preventDefault();
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
@@ -33,7 +34,7 @@ function handleLogin(event) {
  * @returns {boolean} True if the input is valid, false otherwise.
  */
 function validateInput(email, password) {
-    if (!email || !password || email === '' || password === '' || email.trim() === '' || password.trim() === '') {
+    if (!email || !password) {
         alert('Please enter both email and password.');
         return false;
     }
@@ -86,7 +87,7 @@ function attemptLogin(email, password) {
 
 // Example usage:
 window.onload = function () {
-    const form = document.getElementById('login-form');
+    const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', handleLogin);
     }
@@ -94,7 +95,7 @@ window.onload = function () {
 
 // Remove event listener on page unload
 window.onbeforeunload = function () {
-    const form = document.getElementById('login-form');
+    const form = document.querySelector('form');
     if (form) {
         form.removeEventListener('submit', handleLogin);
     }
