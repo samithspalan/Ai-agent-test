@@ -4,7 +4,7 @@
  * Note: In a production environment, authentication must be handled server-side.
  * This script is for demonstration/mock purposes only.
  */
-function handleLogin() {
+function handleLogin(event) {
     try {
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
@@ -33,7 +33,7 @@ function handleLogin() {
  * @returns {boolean} True if the input is valid, false otherwise.
  */
 function validateInput(email, password) {
-    if (!email || !password || email === '' || password === '') {
+    if (!email || !password || email === '' || password === '' || email.trim() === '' || password.trim() === '') {
         alert('Please enter both email and password.');
         return false;
     }
@@ -85,22 +85,17 @@ function attemptLogin(email, password) {
 }
 
 // Example usage:
-const handleFormSubmission = function(event) {
-    event.preventDefault();
-    handleLogin();
-};
-
 window.onload = function () {
     const form = document.getElementById('login-form');
     if (form) {
-        form.addEventListener('submit', handleFormSubmission);
+        form.addEventListener('submit', handleLogin);
     }
 };
 
 // Remove event listener on page unload
-window.onunload = function () {
+window.onbeforeunload = function () {
     const form = document.getElementById('login-form');
     if (form) {
-        form.removeEventListener('submit', handleFormSubmission);
+        form.removeEventListener('submit', handleLogin);
     }
 };
