@@ -68,8 +68,12 @@ function attemptLogin(email, password) {
         // For demonstration purposes only, simulate a successful login
         if (email === 'example@example.com' && password === 'password123') {
             const userSession = { email, loggedIn: true };
-            localStorage.setItem('user_session', JSON.stringify(userSession));
-            alert('Login successful!');
+            if (typeof Storage !== 'undefined') {
+                localStorage.setItem('user_session', JSON.stringify(userSession));
+                alert('Login successful!');
+            } else {
+                alert('Your browser does not support localStorage. Please try again in a different browser.');
+            }
         } else {
             alert('Invalid email or password. Please try again.');
             const passwordInput = document.getElementById('password');
@@ -77,23 +81,6 @@ function attemptLogin(email, password) {
         }
     } catch (error) {
         console.error('Error attempting login:', error);
-    }
-}
-
-/**
- * Retrieves the current user session from local storage.
- * @returns {Object|null} The user session object or null if no session is found.
- */
-function debugUser() {
-    try {
-        const session = localStorage.getItem('user_session');
-        if (!session) {
-            console.log('No active session found.');
-            return null;
-        }
-        return JSON.parse(session);
-    } catch (error) {
-        console.error('Error retrieving user session:', error);
     }
 }
 
