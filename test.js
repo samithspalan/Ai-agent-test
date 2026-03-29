@@ -8,27 +8,52 @@ function handleLogin() {
     const passwordInput = document.getElementById('password');
 
     if (!emailInput || !passwordInput) {
-        console.error('Login fields not found in the DOM.');
-        return;
+        throw new Error('Login fields not found in the DOM.');
     }
 
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (email === '' || password === '') {
-        alert('Please enter both email and password.');
+    if (!validateInput(email, password)) {
         return;
     }
 
+    attemptLogin(email, password);
+}
+
+/**
+ * Validates the user input.
+ * @param {string} email The email address.
+ * @param {string} password The password.
+ * @returns {boolean} True if the input is valid, false otherwise.
+ */
+function validateInput(email, password) {
+    if (email === '' || password === '') {
+        alert('Please enter both email and password.');
+        return false;
+    }
+
+    // Implement additional validation logic as needed
+    return true;
+}
+
+/**
+ * Attempts to log in the user.
+ * @param {string} email The email address.
+ * @param {string} password The password.
+ */
+function attemptLogin(email, password) {
     // Implement actual login handling, such as sending a request to a server-side API
     console.log('Attempting login for:', email);
 
     // For demonstration purposes only, simulate a successful login
     if (email === 'example@example.com' && password === 'password123') {
-        localStorage.setItem('user_session', JSON.stringify({ email: email, loggedIn: true }));
+        const userSession = { email, loggedIn: true };
+        localStorage.setItem('user_session', JSON.stringify(userSession));
         alert('Login successful!');
     } else {
         alert('Invalid email or password. Please try again.');
+        const passwordInput = document.getElementById('password');
         passwordInput.value = '';
     }
 }
@@ -47,7 +72,10 @@ function debugUser() {
 }
 
 // Example usage:
-// window.onload = function() {
-//     const loginButton = document.getElementById('login-button');
-//     loginButton.addEventListener('click', handleLogin);
-// };
+window.onload = function () {
+    const form = document.getElementById('login-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        handleLogin();
+    });
+};
