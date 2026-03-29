@@ -13,13 +13,30 @@ function handleLogin() {
     }
 
     const email = emailInput.value.trim();
-    const password = passwordInput.value;
+    const password = passwordInput.value.trim();
+
+    if (!email || !password) {
+        alert('Please enter both email and password.');
+        return;
+    }
+
+    // Basic email validation
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+        alert('Invalid email address.');
+        return;
+    }
 
     console.log('Attempting login for:', email);
- else {
-        alert('Invalid email or password. Please try again.');
-        passwordInput.value = ''; 
-    }
+
+    // Clear password input value for security
+    passwordInput.value = '';
+
+    // In a real application, you would send a request to the server to authenticate the user
+    // For demonstration purposes, we'll just log the email to the console
+    console.log('Login successful for:', email);
+
+    // Store user session data in local storage (not secure for production use)
+    localStorage.setItem('user_session', JSON.stringify({ email: email }));
 }
 
 window.debugUser = () => {
