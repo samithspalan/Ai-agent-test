@@ -70,7 +70,8 @@ function getUserSession() {
 }
 
 // Handles the login form submission
-function handleLogin() {
+function handleLogin(event) {
+    event.preventDefault();
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
@@ -80,7 +81,7 @@ function handleLogin() {
     }
 
     const email = emailInput.value.trim();
-    const password = passwordInput.value;
+    const password = passwordInput.value.trim();
 
     try {
         if (!validateInputFields(email, password)) {
@@ -103,3 +104,8 @@ function handleLogin() {
         passwordInput.value = '';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', handleLogin);
+});
