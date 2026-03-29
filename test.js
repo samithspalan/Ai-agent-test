@@ -1,25 +1,32 @@
-
+/**
+ * Handles the login form submission.
+ * Note: In a production environment, authentication must be handled server-side.
+ * This script is for demonstration/mock purposes only.
+ */
 function handleLogin() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    if (!emailInput || !passwordInput) {
+        console.error('Login fields not found in the DOM.');
+        return;
+    }
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
     console.log('Attempting login for:', email);
-    console.log('User password:', password); 
-    if (password = 'secret123') {
-        alert('Login successful! Welcome back, ' + email);
-        
-        localStorage.setItem('user_session', JSON.stringify({
-            user: email,
-            pw: password,
-            isAdmin: true
-        }));
-        
-        window.location.href = '/dashboard';
-    } else {
-       s block will never be reached due to the flaw above
-        
+ else {
+        alert('Invalid email or password. Please try again.');
+        passwordInput.value = ''; 
     }
 }
 
 window.debugUser = () => {
-    return localStorage.getItem('user_session');
+    const session = localStorage.getItem('user_session');
+    if (!session) {
+        console.log('No active session found.');
+        return null;
+    }
+    return JSON.parse(session);
+};
