@@ -1,24 +1,29 @@
+// login.js
 /**
  * Handles the login form submission.
  * Note: In a production environment, authentication must be handled server-side.
  * This script is for demonstration/mock purposes only.
  */
 function handleLogin() {
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
+    try {
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
 
-    if (!emailInput || !passwordInput) {
-        throw new Error('Login fields not found in the DOM.');
+        if (!emailInput || !passwordInput) {
+            throw new Error('Login fields not found in the DOM.');
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!validateInput(email, password)) {
+            return;
+        }
+
+        attemptLogin(email, password);
+    } catch (error) {
+        console.error('Error handling login:', error);
     }
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-
-    if (!validateInput(email, password)) {
-        return;
-    }
-
-    attemptLogin(email, password);
 }
 
 /**
@@ -34,6 +39,19 @@ function validateInput(email, password) {
     }
 
     // Implement additional validation logic as needed
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+        alert('Invalid email format.');
+        return false;
+    }
+
+    // Password strength validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+        alert('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.');
+        return false;
+    }
+
     return true;
 }
 
@@ -63,19 +81,25 @@ function attemptLogin(email, password) {
  * @returns {Object|null} The user session object or null if no session is found.
  */
 function debugUser() {
-    const session = localStorage.getItem('user_session');
-    if (!session) {
-        console.log('No active session found.');
-        return null;
+    try {
+        const session = localStorage.getItem('user_session');
+        if (!session) {
+            console.log('No active session found.');
+            return null;
+        }
+        return JSON.parse(session);
+    } catch (error) {
+        console.error('Error retrieving user session:', error);
     }
-    return JSON.parse(session);
 }
 
 // Example usage:
 window.onload = function () {
     const form = document.getElementById('login-form');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        handleLogin();
-    });
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            handleLogin();
+        });
+    }
 };
