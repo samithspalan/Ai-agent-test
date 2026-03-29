@@ -23,6 +23,17 @@ function validateInputFields(email, password) {
         return false;
     }
 
+    // Add password length and complexity checks
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return false;
+    }
+
+    if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+        alert('Password must contain at least one lowercase letter, one uppercase letter, and one number.');
+        return false;
+    }
+
     return true;
 }
 
@@ -40,8 +51,11 @@ function storeUserSession(email) {
     try {
         const userSession = { email, isLoggedIn: true };
         localStorage.setItem('user_session', JSON.stringify(userSession));
+        return true;
     } catch (error) {
         console.error('Error storing user session:', error);
+        alert('Error storing user session. Please try again.');
+        return false;
     }
 }
 
@@ -56,6 +70,8 @@ function getUserSession() {
         return JSON.parse(session);
     } catch (error) {
         console.error('Error retrieving user session:', error);
+        alert('Error retrieving user session. Please try again.');
+        return null;
     }
 }
 
@@ -66,6 +82,7 @@ function handleLogin() {
 
     if (!emailInput || !passwordInput) {
         console.error('Login fields not found in the DOM.');
+        alert('Error: Login fields not found.');
         return;
     }
 
@@ -78,7 +95,11 @@ function handleLogin() {
 
     if (authenticateUser(email, password)) {
         console.log('Login successful for:', email);
-        storeUserSession(email);
+        if (storeUserSession(email)) {
+            // Login successful, redirect to dashboard or homepage
+            alert('Login successful!');
+            // Add redirect logic here
+        }
     } else {
         alert('Invalid email or password. Please try again.');
         passwordInput.value = '';
