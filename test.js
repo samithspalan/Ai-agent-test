@@ -9,7 +9,7 @@ function handleLogin() {
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
-        if (!emailInput || !passwordInput) {
+        if (!emailInput || !passwordInput || emailInput === null || passwordInput === null) {
             throw new Error('Login fields not found in the DOM.');
         }
 
@@ -33,7 +33,7 @@ function handleLogin() {
  * @returns {boolean} True if the input is valid, false otherwise.
  */
 function validateInput(email, password) {
-    if (email === '' || password === '') {
+    if (email === null || password === null || email === '' || password === '') {
         alert('Please enter both email and password.');
         return false;
     }
@@ -61,18 +61,22 @@ function validateInput(email, password) {
  * @param {string} password The password.
  */
 function attemptLogin(email, password) {
-    // Implement actual login handling, such as sending a request to a server-side API
-    console.log('Attempting login for:', email);
+    try {
+        // Implement actual login handling, such as sending a request to a server-side API
+        console.log('Attempting login for:', email);
 
-    // For demonstration purposes only, simulate a successful login
-    if (email === 'example@example.com' && password === 'password123') {
-        const userSession = { email, loggedIn: true };
-        localStorage.setItem('user_session', JSON.stringify(userSession));
-        alert('Login successful!');
-    } else {
-        alert('Invalid email or password. Please try again.');
-        const passwordInput = document.getElementById('password');
-        passwordInput.value = '';
+        // For demonstration purposes only, simulate a successful login
+        if (email === 'example@example.com' && password === 'password123') {
+            const userSession = { email, loggedIn: true };
+            localStorage.setItem('user_session', JSON.stringify(userSession));
+            alert('Login successful!');
+        } else {
+            alert('Invalid email or password. Please try again.');
+            const passwordInput = document.getElementById('password');
+            passwordInput.value = '';
+        }
+    } catch (error) {
+        console.error('Error attempting login:', error);
     }
 }
 
@@ -98,6 +102,17 @@ window.onload = function () {
     const form = document.getElementById('login-form');
     if (form) {
         form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            handleLogin();
+        });
+    }
+};
+
+// Remove event listener on page unload
+window.onunload = function () {
+    const form = document.getElementById('login-form');
+    if (form) {
+        form.removeEventListener('submit', function (event) {
             event.preventDefault();
             handleLogin();
         });
