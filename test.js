@@ -14,24 +14,20 @@ function isValidEmail(email) {
 // Helper function to validate input fields
 function validateInputFields(email, password) {
     if (email === '' || password === '') {
-        alert('Please enter both email and password.');
-        return false;
+        throw new Error('Please enter both email and password.');
     }
 
     if (!isValidEmail(email)) {
-        alert('Invalid email format.');
-        return false;
+        throw new Error('Invalid email format.');
     }
 
     // Add password length and complexity checks
     if (password.length < 8) {
-        alert('Password must be at least 8 characters long.');
-        return false;
+        throw new Error('Password must be at least 8 characters long.');
     }
 
     if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-        alert('Password must contain at least one lowercase letter, one uppercase letter, and one number.');
-        return false;
+        throw new Error('Password must contain at least one lowercase letter, one uppercase letter, and one number.');
     }
 
     return true;
@@ -54,8 +50,7 @@ function storeUserSession(email) {
         return true;
     } catch (error) {
         console.error('Error storing user session:', error);
-        alert('Error storing user session. Please try again.');
-        return false;
+        throw new Error('Error storing user session. Please try again.');
     }
 }
 
@@ -70,8 +65,7 @@ function getUserSession() {
         return JSON.parse(session);
     } catch (error) {
         console.error('Error retrieving user session:', error);
-        alert('Error retrieving user session. Please try again.');
-        return null;
+        throw new Error('Error retrieving user session. Please try again.');
     }
 }
 
@@ -82,26 +76,30 @@ function handleLogin() {
 
     if (!emailInput || !passwordInput) {
         console.error('Login fields not found in the DOM.');
-        alert('Error: Login fields not found.');
-        return;
+        throw new Error('Error: Login fields not found.');
     }
 
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    if (!validateInputFields(email, password)) {
-        return;
-    }
-
-    if (authenticateUser(email, password)) {
-        console.log('Login successful for:', email);
-        if (storeUserSession(email)) {
-            // Login successful, redirect to dashboard or homepage
-            alert('Login successful!');
-            // Add redirect logic here
+    try {
+        if (!validateInputFields(email, password)) {
+            throw new Error('Invalid input fields.');
         }
-    } else {
-        alert('Invalid email or password. Please try again.');
+
+        if (authenticateUser(email, password)) {
+            console.log('Login successful for:', email);
+            if (storeUserSession(email)) {
+                // Login successful, redirect to dashboard or homepage
+                alert('Login successful!');
+                // Add redirect logic here
+                window.location.href = '/dashboard';
+            }
+        } else {
+            throw new Error('Invalid email or password. Please try again.');
+        }
+    } catch (error) {
+        alert(error.message);
         passwordInput.value = '';
     }
 }
