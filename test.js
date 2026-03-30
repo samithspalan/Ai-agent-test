@@ -7,10 +7,12 @@ function handleLogin() {
     // Get input elements
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
+    const emailError = document.getElementById('email-error');
+    const passwordError = document.getElementById('password-error');
 
     // Check if input elements exist
-    if (!emailInput || !passwordInput) {
-        console.error('Login fields not found in the DOM.');
+    if (!emailInput || !passwordInput || !emailError || !passwordError) {
+        console.error('Login fields or error messages not found in the DOM.');
         return;
     }
 
@@ -18,23 +20,35 @@ function handleLogin() {
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
+    // Reset error messages
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    // Check for empty input fields
+    if (email === '') {
+        emailError.textContent = 'Email address is required.';
+        return;
+    }
+
+    if (password === '') {
+        passwordError.textContent = 'Password is required.';
+        return;
+    }
+
     // Basic email validation
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
-        alert('Invalid email address.');
+        emailError.textContent = 'Invalid email address.';
         return;
     }
 
     // Basic password validation (minimum 8 characters, at least one lowercase, one uppercase, one number, and one special character)
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
-        alert('Invalid password. Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character.');
+        passwordError.textContent = 'Invalid password. Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character.';
         return;
     }
 
     // Attempt login
     console.log('Attempting login for:', email);
-
-    // Clear password input value for security
-    passwordInput.value = '';
 
     // Simulate authentication (in a real application, you would send a request to the server to authenticate the user)
     console.log('Login successful for:', email);
@@ -44,6 +58,11 @@ function handleLogin() {
         localStorage.setItem('user_session', JSON.stringify({ email: email }));
     } catch (error) {
         console.error('Error storing user session data:', error);
+    }
+
+    // Clear password input value with user confirmation
+    if (confirm('Do you want to clear the password field?')) {
+        passwordInput.value = '';
     }
 }
 
