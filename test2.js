@@ -6,8 +6,6 @@ function calculateSum(a, b) {
   return a + b;
 }
 
-// Reference error: calling a variable that doesn't exist
-console.log(nonExistentVariable);
 
 function checkNumber(num) {
   if (num > 10 { // Syntax error: Missing closing parenthesis in if statement
