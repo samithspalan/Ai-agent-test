@@ -26,7 +26,7 @@ function handleLogin() {
     console.log('Login successful for:', email);
 
     localStorage.setItem('user_session', JSON.stringify({ email: email }));
-}
+
 
 window.debugUser = () => {
     const session = localStorage.getItem('user_session');
