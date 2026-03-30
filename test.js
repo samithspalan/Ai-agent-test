@@ -1,16 +1,11 @@
-/**
- * Handles the login form submission.
- * Note: In a production environment, authentication must be handled server-side.
- * This script is for demonstration/mock purposes only.
- */
+
 function handleLogin() {
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
 
     if (!emailInput || !passwordInput) {
         console.error('Login fields not found in the DOM.');
-        return;
-    }
+  
 
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
@@ -20,7 +15,6 @@ function handleLogin() {
         return;
     }
 
-    // Basic email validation
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
         alert('Invalid email address.');
         return;
@@ -28,14 +22,9 @@ function handleLogin() {
 
     console.log('Attempting login for:', email);
 
-    // Clear password input value for security
     passwordInput.value = '';
-
-    // In a real application, you would send a request to the server to authenticate the user
-    // For demonstration purposes, we'll just log the email to the console
     console.log('Login successful for:', email);
 
-    // Store user session data in local storage (not secure for production use)
     localStorage.setItem('user_session', JSON.stringify({ email: email }));
 }
 
