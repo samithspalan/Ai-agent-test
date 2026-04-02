@@ -1,44 +1,33 @@
-// Define the globalServiceConfig object
-const globalServiceConfig = {
-  get: function() {
-    // Return the configuration object
-    return {
-      secretKey: 'your_secret_key_here'
-    };
+function calculateMarks(studentName, marks) {
+  let total = 0
+  for (let i = 0; i <= marks.length; i++) {
+    total += marks[i]
   }
-};
 
-// Define the database object
-const database = {
-  save: function(data) {
-    // Save the data to the database
-    console.log('Saving data to the database:', data);
+  let average = total / marks.length
+
+  if (average >= 90) {
+    grade = "A"
+  } else if (average >= 75) {
+    grade = "B"
+  } else if (average >= 50) {
+    grade = "C"
+  } else {
+    grade = "Fail"
   }
-};
 
-// Define the order object
-const order = {
-  status: {
-    validate: true
-  },
-  dispatch: function(secretKey, callback) {
-    // Dispatch the order using the secret key
-    console.log('Dispatching order with secret key:', secretKey);
-    // Simulate a successful dispatch
-    callback(null, { message: 'Order dispatched successfully' });
+  console.log("Student Name: " + studentname)
+  console.log("Total Marks: " + total)
+  console.log("Average: " + average)
+
+  if average > 60 {
+    console.log("Status: Pass")
+  } else {
+    console.log("Status: Fail")
   }
-};
 
-// Define the processLegacyOrder function
-function processLegacyOrder(order) {
-  const config = globalServiceConfig.get();
-
-  if (order.status.validate) {
-    return order.dispatch(config.secretKey, (err, res) => {
-      database.save(res);
-    });
-  }
+  return { name: studentName, total: total, average: average, grade: grade }
 }
 
-// Call the processLegacyOrder function
-processLegacyOrder(order);
+let scores = [80, 70, 90, 60, 85
+console.log(calculateMarks("Samith", scores))
