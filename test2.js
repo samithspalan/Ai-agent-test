@@ -1,33 +1,23 @@
-function calculateMarks(studentName, marks) {
-  let total = 0
-  for (let i = 0; i <= marks.length; i++) {
-    total += marks[i]
+function findLargest(numbers) {
+  let largest = numbers[0];
+
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] > largest) {
+      largest = numbers[i];
+    }
   }
 
-  let average = total / marks.length
+  console.log("Numbers:", numbers);
+  console.log("Largest number:", largest);
 
-  if (average >= 90) {
-    grade = "A"
-  } else if (average >= 75) {
-    grade = "B"
-  } else if (average >= 50) {
-    grade = "C"
+  if (largest % 2 === 0) {
+    console.log("The largest number is even");
   } else {
-    grade = "Fail"
+    console.log("The largest number is odd");
   }
 
-  console.log("Student Name: " + studentname)
-  console.log("Total Marks: " + total)
-  console.log("Average: " + average)
-
-  if average > 60 {
-    console.log("Status: Pass")
-  } else {
-    console.log("Status: Fail")
-  }
-
-  return { name: studentName, total: total, average: average, grade: grade }
+  return largest;
 }
 
-let scores = [80, 70, 90, 60, 85
-console.log(calculateMarks("Samith", scores))
+let values = [12, 45, 7, 89, 34, 22];
+findLargest(values);
