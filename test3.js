@@ -1,20 +1,29 @@
-let num = prompt("Enter a number:");
-num = Number(num);
-
-if (isNaN(num)) {
-  console.log("Invalid input");
-} else {
-  if (num > 0) {
-    console.log("Positive number");
-  } else if (num < 0) {
-    console.log("Negative number");
-  } else {
-    console.log("Zero");
+function calculateMarks(studentName, marks) {
+  let total = 0;
+  for (let i = 0; i < marks.length; i++) {
+    total += marks[i];
   }
-
-  if (num % 2 === 0) {
-    console.log("Even number");
+  let average = total / marks.length;
+  let grade;
+  if (average >= 90) {
+    grade = "A";
+  } else if (average >= 75) {
+    grade = "B";
+  } else if (average >= 50) {
+    grade = "C";
   } else {
-    console.log("Odd number");
+    grade = "Fail";
   }
+  console.log("Student Name: " + studentName);
+  console.log("Total Marks: " + total);
+  console.log("Average: " + average);
+  if (average > 60) {
+    console.log("Status: Pass");
+  } else {
+    console.log("Status: Fail");
+  }
+  return { name: studentName, total: total, average: average, grade: grade };
 }
+
+let scores = [80, 70, 90, 60, 85];
+console.log(calculateMarks("Samith", scores));
