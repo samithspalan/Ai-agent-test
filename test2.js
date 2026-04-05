@@ -8,6 +8,3 @@ function findLargest(numbers) {
   console.log("Numbers:", numbers);
   console.log("Largest number:", largest)
 }
-
-let scores = [80, 70, 90, 60, 85]
-console.log(findLargest(scores))
